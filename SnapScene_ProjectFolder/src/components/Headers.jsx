@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './Headers.css';
+import React, { useState } from "react";
+import "./Headers.css";
 
 function AppHeader() {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -9,7 +9,10 @@ function AppHeader() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg fixed-top bg-light navbar-light" style={{ borderBottom: '2px solid lightgrey'}}>
+    <nav
+      className="navbar navbar-expand-lg fixed-top bg-light navbar-light"
+      style={{ borderBottom: "2px solid lightgrey" }}
+    >
       <div className="container">
         <a className="navbar-brand" href="#">
           SnapScene
@@ -24,7 +27,7 @@ function AppHeader() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div
-          className={`collapse navbar-collapse ${isCollapsed ? '' : 'show'}`}
+          className={`collapse navbar-collapse ${isCollapsed ? "" : "show"}`}
           id="navbarSupportedContent"
         >
           <ul className="navbar-nav ms-auto align-items-center">
@@ -44,7 +47,9 @@ function AppHeader() {
               </a>
             </li>
             <li className="nav-item ms-3">
-              <a className="btn btn-black btn-rounded" href="#!">Sign in</a>
+              <a className="btn btn-black btn-rounded" href="#!">
+                Sign in
+              </a>
             </li>
           </ul>
         </div>
