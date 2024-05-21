@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -9,18 +9,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
 
-  useEffect(() => 
-  {
-    //try to see if the user is already logged in
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/home");
-    }
-  }, [navigate]);
-
-  
-  async function submit(e) 
-  {
+  async function submit(e) {
     e.preventDefault();
 
     const baseURL = "http://localhost:5000/";
@@ -28,20 +17,32 @@ function LoginForm() {
     const fullURL = baseURL + endpoint;
 
     try {
-      const response = await axios.post(fullURL, {
+      const requestData = {
         email,
         password,
-        username: createAccount ? username : undefined,
-      });
+      };
 
-      //Save the access token to local storage
+      // Only include username if creating an account
+      if (createAccount) {
+        requestData.username = username;
+      }
+
+      const response = await axios.post(fullURL, requestData);
+
+      // Log the response 
+      console.log(response);
+
+      if (!response.data || !response.data.token) {
+        throw new Error("Invalid server response");
+      }
+
       localStorage.setItem("token", response.data.token);
-
       navigate("/home");
     } catch (error) {
-      alert("Password or Email not correct!");
+      alert(error.message || "Issue with password or Email");
     }
   }
+
   return (
     <section
       className="vh-100 d-flex justify-content-center align-items-center"
@@ -72,10 +73,10 @@ function LoginForm() {
                 <input
                   onChange={(e) => setUsername(e.target.value)}
                   type="text"
-                  id="form2Example17"
+                  id="usernameInput"
                   className="form-control form-control-lg"
                 />
-                <label className="form-label" htmlFor="form2Example17">
+                <label className="form-label" htmlFor="usernameInput">
                   Username
                 </label>
               </div>
@@ -85,10 +86,10 @@ function LoginForm() {
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
-                id="form2Example17"
+                id="emailInput"
                 className="form-control form-control-lg"
               />
-              <label className="form-label" htmlFor="form2Example17">
+              <label className="form-label" htmlFor="emailInput">
                 Email address
               </label>
             </div>
@@ -97,10 +98,10 @@ function LoginForm() {
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
-                id="form2Example27"
+                id="passwordInput"
                 className="form-control form-control-lg"
               />
-              <label className="form-label" htmlFor="form2Example27">
+              <label className="form-label" htmlFor="passwordInput">
                 Password
               </label>
             </div>
@@ -110,9 +111,6 @@ function LoginForm() {
                 {createAccount ? "Create Account" : "Login"}
               </button>
             </div>
-            {/* 
-            <a className="small text-muted" href="#!">Forgot password?</a>
-            */}
 
             <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
               {createAccount
