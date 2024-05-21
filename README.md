@@ -12,8 +12,8 @@
  Next, setup the dependencies of the server by running these commands :
  ```bash
  cd server
- npm install express,
- npm install cors,
+ npm install express
+ npm install cors
  npm install jsonwebtoken
  ```
 **Now to run the project, it is recommended to run the server first.**
