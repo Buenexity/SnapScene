@@ -5,7 +5,7 @@ Prequisites:
 npm install bootstrap
 #npm install react-router-dom
 
-#cd into server folder
+# cd into server folder
 npm install express
 npm install cors
 npm install jsonwebtoken
