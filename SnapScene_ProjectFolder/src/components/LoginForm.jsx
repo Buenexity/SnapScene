@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -54,6 +54,7 @@ function LoginForm({ setUser, user }) {
       alert(error.message || "Issue with password or Email");
     }
   }
+
   return (
     <section className="vh-100 gradient-custom">
       <div className="container py-5 h-100">
