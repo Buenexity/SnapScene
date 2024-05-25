@@ -2,25 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function LoginForm() {
+function LoginForm({ setUser, user }) {
   const navigate = useNavigate();
   const [createAccount, setCreateAccount] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [token, setToken] = useState("");
 
-  useEffect(() => 
-  {
-    //try to see if the user is already logged in
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/home");
-    }
-  }, [navigate]);
+  useEffect(() => {}, [user]);
 
-  
-  async function submit(e) 
-  {
+  async function submit(e) {
     e.preventDefault();
 
     const baseURL = "http://localhost:5000/";
@@ -28,105 +20,119 @@ function LoginForm() {
     const fullURL = baseURL + endpoint;
 
     try {
-      const response = await axios.post(fullURL, {
+      const requestData = {
         email,
         password,
-        username: createAccount ? username : undefined,
-      });
+      };
 
-      //Save the access token to local storage
-      localStorage.setItem("token", response.data.token);
+      //Only include username if creating an account
+      if (createAccount) {
+        requestData.username = username;
+      }
 
-      navigate("/home");
+      //create post request to server
+      const response = await axios.post(fullURL, requestData);
+
+      console.log(response);
+
+      if (!response.data || !response.data.token) {
+        throw new Error("Invalid server response");
+      }
+
+      // Set the user and token in sessionStorage
+      sessionStorage.setItem("user", JSON.stringify(response.data.user));
+      sessionStorage.setItem("token", response.data.token);
+
+      setUser(response.data.user);
+      setToken(response.data.token);
+
+      // Redirect to home page only on successful login/signup
+      navigate("/home", { state: { user: response.data.user } });
     } catch (error) {
-      alert("Password or Email not correct!");
+      // Handle errors
+      console.error(error);
+      alert(error.message || "Issue with password or Email");
     }
   }
   return (
-    <section
-      className="vh-100 d-flex justify-content-center align-items-center"
-      style={{ backgroundColor: "white", borderRadius: "2.5%" }}
-    >
-      <div className="col-md-6 col-lg-7 d-flex align-items-center">
-        <div className="card-body p-4 p-lg-5 text-black">
-          <form onSubmit={submit}>
-            <div className="d-flex align-items-center mb-3 pb-1">
-              <i
-                className="fas fa-cubes fa-2x me-3"
-                style={{ color: "#ff6219" }}
-              ></i>
-              <div className="h1 fw-bold mb-0" style={{ marginLeft: "-18px" }}>
-                SnapScene
-              </div>
-            </div>
-
-            <h5
-              className="fw-normal mb-3 pb-3"
-              style={{ letterSpacing: "1px" }}
+    <section className="vh-100 gradient-custom">
+      <div className="container py-5 h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div
+              className="card text-white"
+              style={{
+                borderRadius: "1rem",
+                backgroundColor: "rgba(0, 0, 0, 0.3)",
+              }}
             >
-              {createAccount ? "Create account" : "Sign into your account"}
-            </h5>
+              <div className="card-body p-5 text-center">
+                <div className="mb-md-5 mt-md-4 pb-5">
+                  <h2 className="fw-bold mb-2 text-uppercase">
+                    {createAccount ? "Create account" : "Login"}
+                  </h2>
+                  <p className="text-white-50 mb-5">
+                    Please enter your{" "}
+                    {createAccount
+                      ? "details to sign up"
+                      : "login and password"}
+                  </p>
 
-            {createAccount && (
-              <div data-mdb-input-init className="form-outline mb-4">
-                <input
-                  onChange={(e) => setUsername(e.target.value)}
-                  type="text"
-                  id="form2Example17"
-                  className="form-control form-control-lg"
-                />
-                <label className="form-label" htmlFor="form2Example17">
-                  Username
-                </label>
+                  {createAccount && (
+                    <div className="mb-4">
+                      <input
+                        onChange={(e) => setUsername(e.target.value)}
+                        type="text"
+                        className="form-control form-control-lg"
+                        placeholder="Username"
+                      />
+                    </div>
+                  )}
+
+                  <div className="mb-4">
+                    <input
+                      onChange={(e) => setEmail(e.target.value)}
+                      type="email"
+                      className="form-control form-control-lg"
+                      placeholder="Email address"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <input
+                      onChange={(e) => setPassword(e.target.value)}
+                      type="password"
+                      className="form-control form-control-lg"
+                      placeholder="Password"
+                    />
+                  </div>
+
+                  <button
+                    className="btn btn-outline-light btn-lg px-5"
+                    type="submit"
+                    onClick={submit}
+                  >
+                    {createAccount ? "Create Account" : "Login"}
+                  </button>
+                </div>
+
+                <div>
+                  <p className="mb-0">
+                    {createAccount
+                      ? "Already have an account?"
+                      : "Don't have an account?"}
+                    <a
+                      href="#!"
+                      className="text-white-50 fw-bold"
+                      onClick={() => setCreateAccount(!createAccount)}
+                    >
+                      {createAccount ? "Login" : "Create Account"}
+                    </a>
+                  </p>
+                </div>
               </div>
-            )}
-
-            <div data-mdb-input-init className="form-outline mb-4">
-              <input
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                id="form2Example17"
-                className="form-control form-control-lg"
-              />
-              <label className="form-label" htmlFor="form2Example17">
-                Email address
-              </label>
             </div>
-
-            <div data-mdb-input-init className="form-outline mb-4">
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                type="password"
-                id="form2Example27"
-                className="form-control form-control-lg"
-              />
-              <label className="form-label" htmlFor="form2Example27">
-                Password
-              </label>
-            </div>
-
-            <div className="pt-1 mb-4">
-              <button className="btn btn-dark btn-lg btn-block" type="submit">
-                {createAccount ? "Create Account" : "Login"}
-              </button>
-            </div>
-            {/* 
-            <a className="small text-muted" href="#!">Forgot password?</a>
-            */}
-
-            <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-              {createAccount
-                ? "Already have an Account:"
-                : "Don't have an Account:"}
-              <a
-                onClick={() => setCreateAccount(!createAccount)}
-                href="#!"
-                style={{ color: "#393f81", marginLeft: "5px" }}
-              >
-                {createAccount ? "Sign In" : "Create Account"}
-              </a>
-            </p>
-          </form>
+          </div>
         </div>
       </div>
     </section>
