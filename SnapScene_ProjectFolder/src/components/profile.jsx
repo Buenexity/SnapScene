@@ -1,14 +1,14 @@
 // Home.js
 import React from 'react';
 
-function Home({ user }) {
+function Profile({ user }) {
   return (
     <div>
       {user && (
-        <h1>Welcome, {user.username}</h1>
+        <h1>Profile of {user.username}</h1>
       )}
     </div>
   );
 }
 
-export default Home;
+export default Profile;
