@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -57,7 +57,7 @@ function LoginForm({ setUser, user }) {
 
   return (
     <section className="vh-100 gradient-custom">
-      <div className="container py-5 h-100">
+      <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div
