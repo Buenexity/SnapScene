@@ -10,7 +10,6 @@ function LoginForm({ setUser, user }) {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
 
-  useEffect(() => {}, [user]);
 
   async function submit(e) {
     e.preventDefault();
