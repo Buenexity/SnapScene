@@ -1,5 +1,4 @@
 // Home.js
-import React from 'react';
 
 function Profile({ user }) {
   return (

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./Headers.css";
+import { useState } from "react";
+import "./styles/Headers.css";
 
 function AppHeader() {
   const [isCollapsed, setIsCollapsed] = useState(true);
