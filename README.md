@@ -6,22 +6,19 @@
  Tp setup the dependencies for REACT you must run these commands :
  ```bash
  cd SnapScene_ProjectFolder
- npm install bootstrap
- npm install react-router-dom
+ npm i
  ```
  Next, setup the dependencies of the server by running these commands :
  ```bash
  cd server
- npm install express
- npm install cors
- npm install jsonwebtoken
+ npm i
  ```
 **Now to run the project, it is recommended to run the server first.**
 
  Turn on the server by running the following :
  ```bash
  cd server
- nodemon server
+ npm run dev
  ```
   Finally to build and run : 
   ```bash
