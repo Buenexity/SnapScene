@@ -42,11 +42,21 @@ function LoginForm({ setUser, user }) {
       sessionStorage.setItem("user", JSON.stringify(response.data.user));
       sessionStorage.setItem("token", response.data.token);
 
+      //SetUser to {email,password,and password}
+
+      const Specific_User = 
+      {
+        email: response.data.user.email,
+        password:  response.data.user.password, 
+        username: response.data.user.username,
+      }
+
       setUser(response.data.user);
       setToken(response.data.token);
 
+      console.log("Special test" , Specific_User);
       // Redirect to home page only on successful login/signup
-      navigate("/home", { state: { user: response.data.user } });
+      navigate("/home", { state: { user: Specific_User } });
     } catch (error) {
       // Handle errors
       console.error(error);
