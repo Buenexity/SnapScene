@@ -5,7 +5,7 @@
 
  Tp setup the dependencies for REACT you must run these commands :
  ```bash
- cd SnapScene_ProjectFolder
+ cd frontend
  npm i
  ```
  Next, setup the dependencies of the server by running these commands :
@@ -22,6 +22,6 @@
  ```
   Finally to build and run : 
   ```bash
-  cd SnapScene_ProjectFolder
+  cd frontend
   npm run dev
   ```
