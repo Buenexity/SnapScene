@@ -11,3 +11,7 @@
 .navbar-toggler:focus-visible {
   outline: none; 
 }
+
+.navbar-brand img {
+  width: 40px;
+}
