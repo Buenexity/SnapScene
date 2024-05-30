@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,6 +10,7 @@ function LoginForm({ setUser, user }) {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
 
+  useEffect(() => {}, [user]);
 
   async function submit(e) {
     e.preventDefault();
@@ -42,21 +43,11 @@ function LoginForm({ setUser, user }) {
       sessionStorage.setItem("user", JSON.stringify(response.data.user));
       sessionStorage.setItem("token", response.data.token);
 
-      //SetUser to {email,password,and password}
-
-      const Specific_User = 
-      {
-        email: response.data.user.email,
-        password:  response.data.user.password, 
-        username: response.data.user.username,
-      }
-
       setUser(response.data.user);
       setToken(response.data.token);
 
-      console.log("Special test" , Specific_User);
       // Redirect to home page only on successful login/signup
-      navigate("/home", { state: { user: Specific_User } });
+      navigate("/home", { state: { user: response.data.user } });
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -66,7 +57,7 @@ function LoginForm({ setUser, user }) {
 
   return (
     <section className="vh-100 gradient-custom">
-      <div className="container h-100">
+      <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div
