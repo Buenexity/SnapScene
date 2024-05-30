@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import Home from "./components/Home";
 import Profile from "./components/profile";
-import "./App.css";
+import "../styles/App.css";
 
 function App() {
   //Either the user

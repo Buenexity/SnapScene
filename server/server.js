@@ -13,7 +13,8 @@ app.use(cors());
 const SECRET_KEY = "kC^nU$mD*UL@Zuam";
 
 //for testing purposes you change this to your data base
-const mongoURI = "mongodb://localhost:27017/users-for";
+const mongoURI = 'mongodb+srv://<user>:<password>@snapscene.nfeeo7g.mongodb.net/users';
+
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
