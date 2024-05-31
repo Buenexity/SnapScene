@@ -3,17 +3,21 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const User = require("./users/users"); // Import the User model using require
+const bodyParser = require('body-parser');
+
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
+
 
 //token generator key
 const SECRET_KEY = "kC^nU$mD*UL@Zuam";
 
 //for testing purposes you change this to your data base
-const mongoURI = 'mongodb+srv://<user>:<password>@snapscene.nfeeo7g.mongodb.net/users';
+const mongoURI = 'mongodb+srv://CS110-Group15:Password24@snapscene.nfeeo7g.mongodb.net/users';
 
 
 mongoose
@@ -89,6 +93,57 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ message: "Error logging in" });
   }
 });
+
+
+/*
+    Image retrieval
+*/
+app.post("/update_profile_picture/:UserEmail", async (req, res) => {
+  try {
+    const userEmail = req.params.UserEmail;
+    const imageUrl = req.body.imageUrl;
+
+    // Find the user by email
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Update the profile picture URL
+    user.profile = imageUrl;
+
+    // Save the changes to the database
+    await user.save();
+
+    return res.status(200).json({ message: 'Profile picture updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile picture:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+app.get("/get_profile_picture/:UserEmail", async (req, res) => {
+  try {
+    const userEmail = req.params.UserEmail;
+
+    // Find the user by email
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return res.status(405).json({ error: 'User not found' });
+    }
+
+    // Send the profile picture URL
+    return res.status(200).json({ imageUrl: user.profile });
+  } catch (error) {
+    console.error('Error fetching profile picture:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 // Server port is 5000
 const PORT = 5000;
