@@ -4,14 +4,18 @@ const mongoose = require("mongoose");
 const imageSchema = new mongoose.Schema(
 {
     url: { type: String, required: true },
-    comments: [{ type: String }] 
+    comments: [{ type: String }],
+    tags: [String]
 });
+
+
 
 const userSchema = new mongoose.Schema(
 {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     username: { type: String, unique: true },
+    profile: {type: String},
     images: [imageSchema] //array of images
 });
 
