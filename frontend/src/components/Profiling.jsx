@@ -1,4 +1,3 @@
-import React from "react";
 import "/styles/Profiling.css";
 
 const ProfileInfo = ({ user, profileImageUrl, handleFileUpload }) => (
