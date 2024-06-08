@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import ProfileInfo from "./Profiling";
 import { useNavigate } from "react-router-dom";
 import ImagePost from "./ImagePost";
+import AppHeader from "./Headers";
 
 function DynamicProfile({ user }) {
   const navigate = useNavigate();
@@ -170,6 +171,9 @@ function DynamicProfile({ user }) {
           <button onClick={handleFollowButton} className="upload-button">Follow</button>
         </div>
       </div>
+
+      <hr/>
+
       {renderProfilePosts()}
     </div>
   );
