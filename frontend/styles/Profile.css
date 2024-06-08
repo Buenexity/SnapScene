@@ -1,3 +1,7 @@
+.Profile-header {
+  margin-top: 100px;
+}
+
 .upload-overlay 
 {
   position: fixed;
@@ -35,7 +39,7 @@
 }
 
 .post-container>*:first-child {
-  color: #7eafea;
+  color: #4c90e2;
   flex-grow: 1;
   text-align: left;
 }
@@ -65,10 +69,9 @@
   font-size: large;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
   &:hover {
     color:white;
     background: rgb(75, 75, 228);
-    transform: scale(1.01);
   }
 }

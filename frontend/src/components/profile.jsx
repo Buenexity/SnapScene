@@ -5,6 +5,7 @@ import ProfileInfo from "./Profiling";
 import def_image from "../../public/default_pfp.webp";
 import "../../styles/Profile.css";
 import UploadImages from "./UploadPhotos";
+import AppHeader from "./Headers";
 
 function Profile({ user }) {
   const [profileImageUrl, setProfileImageUrl] = useState(def_image);
@@ -106,6 +107,8 @@ function Profile({ user }) {
   //Profile 
   return (
     <div className="Profile">
+      <AppHeader />
+      
       <header className="Profile-header">
         <ProfileInfo
           user={user}
