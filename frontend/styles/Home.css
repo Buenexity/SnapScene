@@ -63,3 +63,9 @@
 #tag6 {
     background-image: url("../src/assets/tagbackground6.jpg");
 }
+
+@media screen and (width > 1600px) {
+    .tag-wrapper a {
+        width: 550px;
+    }
+}

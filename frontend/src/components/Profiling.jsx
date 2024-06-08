@@ -21,7 +21,7 @@ const ProfileInfo = ({ user, profileImageUrl, handleFileUpload,followers ,follow
         </div>
 
         <div className="Profile-text">
-          <h1 id="Username">{user.username}</h1>
+          <h1 id="Username">@{user.username}</h1>
           <div className="Profile-stats">
             <div className="Profile-stats-item">
               <h2>Followers: {followers}</h2>
