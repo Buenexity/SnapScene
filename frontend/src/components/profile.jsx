@@ -114,19 +114,26 @@ function Profile({ user }) {
           following={following}
           followers={followers}
         />
-        <button onClick={() => setShowUploadPopup(true)}>Upload Images</button>
-        {showUploadPopup && (
-          <div className="upload-overlay">
-            <div className="upload-popup">
-              <UploadImages user={user} onClose={handleCloseUploadPopup} />
-              <button onClick={handleCloseUploadPopup}>Close</button>
-            </div>
-          </div>
-        )}
       </header>
-      <section className="Profile-posts">
-        <h2>Posts</h2>
-      </section>
+
+      <div className="post-container">
+        <section className="Profile-posts">
+          <h1>Posts</h1>
+        </section>
+        <div className="upload-container">
+          <button onClick={() => setShowUploadPopup(true)} className="upload-button">Upload Images</button>
+          {showUploadPopup && (
+            <div className="upload-overlay">
+              <div className="upload-popup">
+                <UploadImages user={user} onClose={handleCloseUploadPopup} />
+                <button onClick={handleCloseUploadPopup}>Close</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <hr/>
     </div>
   );
 }

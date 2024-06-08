@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import SnapSceneLogo from "/public/SnapScene.png"
 
 function LoginForm({ setUser, user }) {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function LoginForm({ setUser, user }) {
   async function submit(e) {
     e.preventDefault();
 
-    const baseURL = "http://localhost:5000/";
+    const baseURL = "http://localhost:8000/";
     const endpoint = createAccount ? "signup" : "login";
     const fullURL = baseURL + endpoint;
 
@@ -79,6 +80,7 @@ function LoginForm({ setUser, user }) {
               <div className="card-body p-5 text-center">
                 <div className="mb-md-5 mt-md-4 pb-5">
                   <h2 className="fw-bold mb-2 text-uppercase">
+                    <img style={{width: "75px"}} src={SnapSceneLogo} alt="SnapScene Logo"/> <br/>
                     {createAccount ? "Create account" : "Login"}
                   </h2>
                   <p className="text-white-50 mb-5">

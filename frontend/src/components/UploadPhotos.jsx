@@ -1,6 +1,7 @@
 import { useState } from "react";
 import uploadFile from "./UploadFile";
 import axios from "axios";
+import "../../styles/UploadPhotos.css"
 
 function UploadImages({ user, onClose }) {
   const [tags, setTags] = useState([]);
@@ -42,7 +43,7 @@ function UploadImages({ user, onClose }) {
       console.log(sendImage);
 
       await axios.post(
-        `http://localhost:5000/addImage/${encodeURIComponent(user.email)}`,
+        `http://localhost:8000/addImage/${encodeURIComponent(user.email)}`,
         sendImage,
         { headers: { "Content-Type": "application/json" } },
       );
@@ -55,48 +56,50 @@ function UploadImages({ user, onClose }) {
   };
 
   return (
-    <div>
-      <form className="ImageForm" onSubmit={handleSubmit}>
-        {image && (
-          <img
-            id="ImageDisplay"
-            src={URL.createObjectURL(image)}
-            alt="Preview"
+    <div className="upload-container">
+      <div className="upload">
+        <form className="ImageForm" onSubmit={handleSubmit}>
+          {image && (
+            <img
+              id="ImageDisplay"
+              src={URL.createObjectURL(image)}
+              alt="Preview"
+            />
+          )}
+
+          <input
+            type="file"
+            id="fileInput"
+            onChange={handleFileUpload}
+            
           />
-        )}
 
-        <input
-          type="file"
-          id="fileInput"
-          onChange={handleFileUpload}
-          style={{ display: "block" }}
-        />
+          <input
+            type="text"
+            id="ImageTitle"
+            placeholder="Title"
+            value={imageTitle}
+            onChange={(e) => setImageTitle(e.target.value)}
+          />
 
-        <input
-          type="text"
-          id="ImageTitle"
-          placeholder="Title"
-          value={imageTitle}
-          onChange={(e) => setImageTitle(e.target.value)}
-        />
+          <div>
+            <input type="text" placeholder="Enter tag" />
+            <button type="button" onClick={handleTagChange}>
+              Add Tag
+            </button>
+          </div>
 
-        <div>
-          <input type="text" placeholder="Enter tag" />
-          <button type="button" onClick={handleTagChange}>
-            Add Tag
-          </button>
+          <button type="submit">Upload</button>
+        </form>
+
+        <div className="tags">
+          <h3>Tags:</h3>
+          <ul>
+            {tags.map((tag, index) => (
+              <li key={index}>{tag}</li>
+            ))}
+          </ul>
         </div>
-
-        <button type="submit">Upload</button>
-      </form>
-
-      <div>
-        <h3>Tags:</h3>
-        <ul>
-          {tags.map((tag, index) => (
-            <li key={index}>{tag}</li>
-          ))}
-        </ul>
       </div>
     </div>
   );
