@@ -17,7 +17,7 @@ function Profile({ user }) {
     try {
       console.log("Updating profile picture:", imageUrl);
       await axios.post(
-        `http://localhost:5000/update_profile_picture/${encodeURIComponent(user.email)}`,
+        `http://localhost:8000/update_profile_picture/${encodeURIComponent(user.email)}`,
         { imageUrl }
       );
       console.log("Profile picture updated successfully");
@@ -30,7 +30,7 @@ function Profile({ user }) {
     const fetchProfileImage = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/get_profile_picture/${encodeURIComponent(user.email)}`
+          `http://localhost:8000/get_profile_picture/${encodeURIComponent(user.email)}`
         );
         const imageUrl = response.data.imageUrl;
         setProfileImageUrl(imageUrl || def_image);
@@ -45,7 +45,7 @@ function Profile({ user }) {
   useEffect(() => {
     const fetchUserIds = async () => {
       try {
-        const response1 = await axios.get(`http://localhost:5000/user/id/${encodeURIComponent(user.email)}`);
+        const response1 = await axios.get(`http://localhost:8000/user/id/${encodeURIComponent(user.email)}`);
         const userId = response1.data.userId;
         setUserViewing(userId);
       } catch (error) {
@@ -60,10 +60,10 @@ function Profile({ user }) {
     const fetchFollowersAndFollowing = async () => {
       try {
         if (userViewing) {
-          const responseFollowers = await axios.get(`http://localhost:5000/followers/${userViewing}`);
+          const responseFollowers = await axios.get(`http://localhost:8000/followers/${userViewing}`);
           const followersLength = responseFollowers.data.followers.length;
 
-          const responseFollowing = await axios.get(`http://localhost:5000/following/${userViewing}`);
+          const responseFollowing = await axios.get(`http://localhost:8000/following/${userViewing}`);
           const followingLength = responseFollowing.data.following.length;
 
           setFollowers(followersLength);
