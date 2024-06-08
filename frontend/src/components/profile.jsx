@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import axios from "axios";
 import uploadFile from "./UploadFile"; // Importing uploadFile function
 import ProfileInfo from "./Profiling";
@@ -9,13 +9,16 @@ import UploadImages from "./UploadPhotos";
 function Profile({ user }) {
   const [profileImageUrl, setProfileImageUrl] = useState(def_image);
   const [showUploadPopup, setShowUploadPopup] = useState(false);
+  const [followers, setFollowers] = useState(0);
+  const [following, setFollowing] = useState(0);
+  const [userViewing, setUserViewing] = useState(null);
 
   const updateProfilePicture = async (imageUrl) => {
     try {
       console.log("Updating profile picture:", imageUrl);
       await axios.post(
         `http://localhost:5000/update_profile_picture/${encodeURIComponent(user.email)}`,
-        { imageUrl },
+        { imageUrl }
       );
       console.log("Profile picture updated successfully");
     } catch (error) {
@@ -27,7 +30,7 @@ function Profile({ user }) {
     const fetchProfileImage = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/get_profile_picture/${encodeURIComponent(user.email)}`,
+          `http://localhost:5000/get_profile_picture/${encodeURIComponent(user.email)}`
         );
         const imageUrl = response.data.imageUrl;
         setProfileImageUrl(imageUrl || def_image);
@@ -38,6 +41,44 @@ function Profile({ user }) {
 
     fetchProfileImage();
   }, [user.email]);
+
+  useEffect(() => {
+    const fetchUserIds = async () => {
+      try {
+        const response1 = await axios.get(`http://localhost:5000/user/id/${encodeURIComponent(user.email)}`);
+        const userId = response1.data.userId;
+        setUserViewing(userId);
+      } catch (error) {
+        console.error("Error fetching user IDs:", error);
+      }
+    };
+
+    fetchUserIds();
+  }, [user.email]);
+
+  useEffect(() => {
+    const fetchFollowersAndFollowing = async () => {
+      try {
+        if (userViewing) {
+          const responseFollowers = await axios.get(`http://localhost:5000/followers/${userViewing}`);
+          const followersLength = responseFollowers.data.followers.length;
+
+          const responseFollowing = await axios.get(`http://localhost:5000/following/${userViewing}`);
+          const followingLength = responseFollowing.data.following.length;
+
+          setFollowers(followersLength);
+          setFollowing(followingLength);
+          console.log(following,followers)
+        }
+      } catch (error) {
+        console.error("Error fetching followers and following:", error);
+      }
+    };
+
+    fetchFollowersAndFollowing();
+  }, [userViewing]);
+
+
 
   const handleFileUpload = async (event) => {
     const selectedFile = event.target.files[0];
@@ -59,6 +100,10 @@ function Profile({ user }) {
     setShowUploadPopup(false);
   };
 
+
+
+
+  //Profile 
   return (
     <div className="Profile">
       <header className="Profile-header">
@@ -66,8 +111,9 @@ function Profile({ user }) {
           user={user}
           profileImageUrl={profileImageUrl}
           handleFileUpload={handleFileUpload}
+          following={following}
+          followers={followers}
         />
-
         <button onClick={() => setShowUploadPopup(true)}>Upload Images</button>
         {showUploadPopup && (
           <div className="upload-overlay">
@@ -78,7 +124,6 @@ function Profile({ user }) {
           </div>
         )}
       </header>
-
       <section className="Profile-posts">
         <h2>Posts</h2>
       </section>

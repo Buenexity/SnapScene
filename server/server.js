@@ -3,13 +3,52 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const User = require("./users/users"); // Import the User model using require
+const followController = require("./controllers/followerController");
 const bodyParser = require("body-parser");
+const router = express.Router();
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
+
+
+///////////////////////////////////////////////////
+
+
+// GET request to retrieve a user's ID by email
+app.get("/user/id/:userEmail", async (req, res) => 
+{
+  try {
+    const userEmail = req.params.userEmail;
+
+    // Find the user by email
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ userId: user._id });
+  } catch (error) {
+    console.error("Error fetching user's ID:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////
+
+
+
+
 
 //token generator key
 const SECRET_KEY = "kC^nU$mD*UL@Zuam";
@@ -144,7 +183,8 @@ app.post("/addImage/:UserEmail", async (req, res) => {
   }
 });
 
-app.get("/get_profile_picture/:UserEmail", async (req, res) => {
+app.get("/get_profile_picture/:UserEmail", async (req, res) => 
+{
   try {
     const userEmail = req.params.UserEmail;
 
@@ -161,8 +201,55 @@ app.get("/get_profile_picture/:UserEmail", async (req, res) => {
   }
 });
 
+
+//DYNAMIC USER///////////////////////////////////////////////////////////
+
+// Define route to get user's email by username
+app.get("/user/email/:usernametype", async (req, res) => 
+{
+  try {
+    const username = req.params.usernametype;
+
+    // Find the user by username
+    const user = await User.findOne({ username });
+
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json({ email: user.email });
+  } catch (error) {
+    console.error("Error fetching user's email:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////
+
+app.use(followController);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Server port is 5000
 const PORT = 5000;
-app.listen(PORT, () => {
+app.listen(PORT, () => 
+{
   console.log(`Server is running on port ${PORT}`);
 });
