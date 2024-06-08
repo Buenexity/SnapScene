@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const User = require("./users/users"); // Import the User model using require
 const followController = require("./controllers/followerController");
+const ImageController = require("./controllers/ImagesController");
+
 const bodyParser = require("body-parser");
 const router = express.Router();
 
@@ -227,7 +229,7 @@ app.get("/user/email/:usernametype", async (req, res) =>
 ////////////////////////////////////////////////////////////////////////
 
 app.use(followController);
-
+app.use(ImageController);
 
 
 

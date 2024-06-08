@@ -1,24 +1,12 @@
 
 
-function ImagePost()
-{
-    return(
-        <div>
-            {/* 
-                Image contains:
+function ImagePost({ ImageUrl, WebLinkUrl }) {
 
-                Rendered
-                Image Post Contains:
-                -Image Post
-                OnClick 
-                Image Post Contains:
-                 -title 
-                 -owner
-                -Image Post
-                -Likes 
-                -comments
-            */}
-
+    return (
+        <div className="post-container">
+            <a href={WebLinkUrl} className="image-link">
+                <img src={ImageUrl} alt="Image Post" className="post-image" />
+            </a>
         </div>
     );
 }

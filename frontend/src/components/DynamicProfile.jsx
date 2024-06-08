@@ -3,8 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import ProfileInfo from "./Profiling";
 import { useNavigate } from "react-router-dom";
-import AppHeader from "./Headers";
-import "../../styles/Profile.css"
+import ImagePost from "./ImagePost";
 
 function DynamicProfile({ user }) {
   const navigate = useNavigate();
@@ -16,6 +15,8 @@ function DynamicProfile({ user }) {
   const [userAccount, setUserAccount] = useState(null);
   const [followers, setFollowers] = useState();
   const [following, setFollowing] = useState();
+  const [ProfilePosts, setProfilePosts] = useState([]);
+
 
   // Redirect if the user is viewing their own profile
   useEffect(() => {
@@ -111,9 +112,40 @@ function DynamicProfile({ user }) {
     }
   };
 
+
+  useEffect(() => {
+    async function GetUserImages() {
+      try {
+        const response = await axios.get(`http://localhost:8000/get_profile_imageposts/${email}`);
+        const AllProfileImages = response.data.Allimages || [];
+        console.log(AllProfileImages);
+        setProfilePosts(AllProfileImages);
+      } catch (error) {
+        console.error("Error fetching user images:", error);
+      }
+    }
+
+    GetUserImages();
+  }, [email]);
+
+
+  const renderProfilePosts = () => 
+    {
+      return ProfilePosts.map((image, index) => 
+        (
+        <ImagePost key={index} ImageUrl={image.url} />
+      ));
+    };
+
+
+
+
+
   if (!userExists) {
     return <div>User {username} does not exist.</div>;
   }
+
+
 
   return (
     <div className="Profile">
@@ -138,8 +170,7 @@ function DynamicProfile({ user }) {
           <button onClick={handleFollowButton} className="upload-button">Follow</button>
         </div>
       </div>
-
-      <hr/>
+      {renderProfilePosts()}
     </div>
   );
 }

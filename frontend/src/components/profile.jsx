@@ -1,8 +1,9 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import uploadFile from "./UploadFile"; // Importing uploadFile function
 import ProfileInfo from "./Profiling";
 import def_image from "../../public/default_pfp.webp";
+import ImagePost from "./ImagePost";
 import "../../styles/Profile.css";
 import UploadImages from "./UploadPhotos";
 import AppHeader from "./Headers";
@@ -13,6 +14,7 @@ function Profile({ user }) {
   const [followers, setFollowers] = useState(0);
   const [following, setFollowing] = useState(0);
   const [userViewing, setUserViewing] = useState(null);
+  const [ProfilePosts, setProfilePosts] = useState([]);
 
   const updateProfilePicture = async (imageUrl) => {
     try {
@@ -33,8 +35,8 @@ function Profile({ user }) {
         const response = await axios.get(
           `http://localhost:8000/get_profile_picture/${encodeURIComponent(user.email)}`
         );
-        const imageUrl = response.data.imageUrl;
-        setProfileImageUrl(imageUrl || def_image);
+        const imageUrl = response.data.imageUrl || def_image;
+        setProfileImageUrl(imageUrl);
       } catch (error) {
         console.error("Error fetching profile picture:", error);
       }
@@ -69,7 +71,7 @@ function Profile({ user }) {
 
           setFollowers(followersLength);
           setFollowing(followingLength);
-          console.log(following,followers)
+          console.log(following, followers);
         }
       } catch (error) {
         console.error("Error fetching followers and following:", error);
@@ -80,6 +82,20 @@ function Profile({ user }) {
   }, [userViewing]);
 
 
+  useEffect(() => {
+    async function GetUserImages() {
+      try {
+        const response = await axios.get(`http://localhost:8000/get_profile_imageposts/${user.email}`);
+        const AllProfileImages = response.data.Allimages || [];
+        console.log(AllProfileImages);
+        setProfilePosts(AllProfileImages);
+      } catch (error) {
+        console.error("Error fetching user images:", error);
+      }
+    }
+
+    GetUserImages();
+  }, [user.email]);
 
   const handleFileUpload = async (event) => {
     const selectedFile = event.target.files[0];
@@ -101,10 +117,15 @@ function Profile({ user }) {
     setShowUploadPopup(false);
   };
 
+  const renderProfilePosts = () => 
+  {
+    return ProfilePosts.map((image, index) => 
+      (
+      <ImagePost key={index} ImageUrl={image.url} />
+    ));
+  };
 
-
-
-  //Profile 
+  // Profile 
   return (
     <div className="Profile">
       <AppHeader />
@@ -137,6 +158,7 @@ function Profile({ user }) {
       </div>
 
       <hr/>
+      {renderProfilePosts()}
     </div>
   );
 }
