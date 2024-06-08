@@ -7,7 +7,7 @@ const imageSchema = new mongoose.Schema(
     comments: [{ type: String }],
     tags: [String],
     title: { type: String, required: true },
-    Date: {type: String, required: true }
+    Date: {type: String, required: true },
 });
 
 
@@ -18,7 +18,9 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     username: { type: String, unique: true },
     profile: {type: String, default: ''},
-    images: [imageSchema] //array of images
+    images: [imageSchema],
+    followers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }], 
+    following: [{ type: mongoose.Schema.ObjectId, ref: 'User' }] 
 });
 
 // Define User model
