@@ -3,6 +3,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import ProfileInfo from "./Profiling";
 import { useNavigate } from "react-router-dom";
+import AppHeader from "./Headers";
+import "../../styles/Profile.css"
 
 function DynamicProfile({ user }) {
   const navigate = useNavigate();
@@ -114,24 +116,30 @@ function DynamicProfile({ user }) {
   }
 
   return (
-    <div>
-      <div className="Profile">
-        <header className="Profile-header">
-          <ProfileInfo
-            user={{ username: username }}
-            email={email}
-            profileImageUrl={profileImageUrl}
-            followers={followers}
-            following={following}
-          />
-        </header>
+    <div className="Profile">
+      <AppHeader />
 
-        <button onClick={handleFollowButton}>Follow</button>
+      <header className="Profile-header">
+        <ProfileInfo
+          user={{ username: username }}
+          email={email}
+          profileImageUrl={profileImageUrl}
+          followers={followers}
+          following={following}
+        />
+      </header>
 
+      <div className="post-container">
         <section className="Profile-posts">
-          <h2>Posts</h2>
+          <h1>Posts</h1>
         </section>
+
+        <div>
+          <button onClick={handleFollowButton} className="upload-button">Follow</button>
+        </div>
       </div>
+
+      <hr/>
     </div>
   );
 }
