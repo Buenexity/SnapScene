@@ -158,7 +158,10 @@ function Profile({ user }) {
       </div>
 
       <hr/>
-      {renderProfilePosts()}
+
+      <div className="posts">
+        {renderProfilePosts()}
+      </div>
     </div>
   );
 }

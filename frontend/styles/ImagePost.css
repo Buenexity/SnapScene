@@ -1,18 +1,16 @@
-.post-container 
-{
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px 0;
+.post img {
+    height: 325px;
+    width: 475px;
+    border: 2px solid lightgray;
+    transition: transform 0.3s ease;
 }
-
-.image-link {
-    display: inline-block;
+  
+.post img:hover {
+    transform: scale(1.01);
 }
-
-.post-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
+  
+@media screen and (width > 1600px) {
+    .post img {
+        width: 550px;
+    }
 }

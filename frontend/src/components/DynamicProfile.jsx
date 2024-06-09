@@ -173,8 +173,11 @@ function DynamicProfile({ user }) {
       </div>
 
       <hr/>
+    
+      <div className="posts">
+        {renderProfilePosts()}
+      </div>
 
-      {renderProfilePosts()}
     </div>
   );
 }
