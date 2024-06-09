@@ -15,13 +15,10 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
-
 ///////////////////////////////////////////////////
 
-
 // GET request to retrieve a user's ID by email
-app.get("/user/id/:userEmail", async (req, res) => 
-{
+app.get("/user/id/:userEmail", async (req, res) => {
   try {
     const userEmail = req.params.userEmail;
 
@@ -39,18 +36,7 @@ app.get("/user/id/:userEmail", async (req, res) =>
   }
 });
 
-
-
-
-
-
-
-
 //////////////////////////////////////////////////////
-
-
-
-
 
 //token generator key
 const SECRET_KEY = "kC^nU$mD*UL@Zuam";
@@ -185,8 +171,7 @@ app.post("/addImage/:UserEmail", async (req, res) => {
   }
 });
 
-app.get("/get_profile_picture/:UserEmail", async (req, res) => 
-{
+app.get("/get_profile_picture/:UserEmail", async (req, res) => {
   try {
     const userEmail = req.params.UserEmail;
 
@@ -203,12 +188,10 @@ app.get("/get_profile_picture/:UserEmail", async (req, res) =>
   }
 });
 
-
 //DYNAMIC USER///////////////////////////////////////////////////////////
 
 // Define route to get user's email by username
-app.get("/user/email/:usernametype", async (req, res) => 
-{
+app.get("/user/email/:usernametype", async (req, res) => {
   try {
     const username = req.params.usernametype;
 
@@ -231,27 +214,8 @@ app.get("/user/email/:usernametype", async (req, res) =>
 app.use(followController);
 app.use(ImageController);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Server port is 8000
 const PORT = 8000;
-app.listen(PORT, () => 
-{
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

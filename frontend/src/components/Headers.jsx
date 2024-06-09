@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "/styles/Headers.css";
-import SnapSceneLogo from '/public/SnapScene.png'
+import SnapSceneLogo from "/public/SnapScene.png";
 
 function AppHeader() {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -16,7 +16,8 @@ function AppHeader() {
     >
       <div className="container">
         <a className="navbar-brand" href="#">
-          <img src={SnapSceneLogo} alt="SnapScene logo"/>SnapScene
+          <img src={SnapSceneLogo} alt="SnapScene logo" />
+          SnapScene
         </a>
         <button
           className="navbar-toggler"
