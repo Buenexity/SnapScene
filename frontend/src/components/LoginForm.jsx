@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import SnapSceneLogo from "/public/SnapScene.png"
+import SnapSceneLogo from "/public/SnapScene.png";
 
 function LoginForm({ setUser, user }) {
   const navigate = useNavigate();
@@ -10,7 +10,6 @@ function LoginForm({ setUser, user }) {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
-
 
   async function submit(e) {
     e.preventDefault();
@@ -45,17 +44,16 @@ function LoginForm({ setUser, user }) {
 
       //SetUser to {email,password,and password}
 
-      const Specific_User = 
-      {
+      const Specific_User = {
         email: response.data.user.email,
-        password:  response.data.user.password, 
+        password: response.data.user.password,
         username: response.data.user.username,
-      }
+      };
 
       setUser(response.data.user);
       setToken(response.data.token);
 
-      console.log("Special test" , Specific_User);
+      console.log("Special test", Specific_User);
       // Redirect to home page only on successful login/signup
       navigate("/home", { state: { user: Specific_User } });
     } catch (error) {
@@ -80,7 +78,12 @@ function LoginForm({ setUser, user }) {
               <div className="card-body p-5 text-center">
                 <div className="mb-md-5 mt-md-4 pb-5">
                   <h2 className="fw-bold mb-2 text-uppercase">
-                    <img style={{width: "75px"}} src={SnapSceneLogo} alt="SnapScene Logo"/> <br/>
+                    <img
+                      style={{ width: "75px" }}
+                      src={SnapSceneLogo}
+                      alt="SnapScene Logo"
+                    />{" "}
+                    <br />
                     {createAccount ? "Create account" : "Login"}
                   </h2>
                   <p className="text-white-50 mb-5">

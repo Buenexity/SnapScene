@@ -1,7 +1,7 @@
 import { useState } from "react";
 import uploadFile from "./UploadFile";
 import axios from "axios";
-import "../../styles/UploadPhotos.css"
+import "../../styles/UploadPhotos.css";
 
 function UploadImages({ user, onClose }) {
   const [tags, setTags] = useState([]);
@@ -45,7 +45,7 @@ function UploadImages({ user, onClose }) {
       await axios.post(
         `http://localhost:8000/addImage/${encodeURIComponent(user.email)}`,
         sendImage,
-        { headers: { "Content-Type": "application/json" } },
+        { headers: { "Content-Type": "application/json" } }
       );
 
       console.log("Image uploaded successfully");
@@ -67,12 +67,7 @@ function UploadImages({ user, onClose }) {
             />
           )}
 
-          <input
-            type="file"
-            id="fileInput"
-            onChange={handleFileUpload}
-            
-          />
+          <input type="file" id="fileInput" onChange={handleFileUpload} />
 
           <input
             type="text"

@@ -1,9 +1,12 @@
-
 import "/styles/Profiling.css";
 
-const ProfileInfo = ({ user, profileImageUrl, handleFileUpload,followers ,following }) => {
-
-
+const ProfileInfo = ({
+  user,
+  profileImageUrl,
+  handleFileUpload,
+  followers,
+  following,
+}) => {
   return (
     <div className="Total-Profile">
       <div className="Profile-info">

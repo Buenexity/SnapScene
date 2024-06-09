@@ -1,71 +1,76 @@
 .home-container {
-    padding-top: 100px;
-    display: flex;
-    flex-direction: column;
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
 }
 
 .home-container h1 {
-    text-align: center;
-    color: #838bea;
+  text-align: center;
+  color: #838bea;
 }
 
 .tag-wrapper {
-    margin-top: 75px;
-    display: grid;
-    justify-items: center;
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 25px;
-    margin-bottom: 75px;
+  margin-top: 75px;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 25px;
+  margin-bottom: 75px;
 }
 
 .tag-wrapper a {
-    height: 300px;
-    width: 475px;
-    text-decoration: none;
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid lightgray;
-    transition: transform 0.3s ease;
+  height: 300px;
+  width: 475px;
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid lightgray;
+  transition: transform 0.3s ease;
 }
 
 .tag-wrapper a:hover {
-    opacity: 0.8;
-    transform: scale(1.01);
+  opacity: 0.8;
+  transform: scale(1.01);
 }
 
-#tag1, #tag2, #tag3, #tag4, #tag5, #tag6 {
-    background-repeat: no-repeat;
-    background-size: cover;
+#tag1,
+#tag2,
+#tag3,
+#tag4,
+#tag5,
+#tag6 {
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #tag1 {
-    background-image: url("../src/assets/tagbackground1.jpg");
+  background-image: url("../src/assets/tagbackground1.jpg");
 }
 
 #tag2 {
-    background-image: url("../src/assets/tagbackground2.jpg");
+  background-image: url("../src/assets/tagbackground2.jpg");
 }
 
 #tag3 {
-    background-image: url("../src/assets/tagbackground3.jpg");
+  background-image: url("../src/assets/tagbackground3.jpg");
 }
 
 #tag4 {
-    background-image: url("../src/assets/tagbackground4.jpg");
+  background-image: url("../src/assets/tagbackground4.jpg");
 }
 
 #tag5 {
-    background-image: url("../src/assets/tagbackground5.jpg");
+  background-image: url("../src/assets/tagbackground5.jpg");
 }
 
 #tag6 {
-    background-image: url("../src/assets/tagbackground6.jpg");
+  background-image: url("../src/assets/tagbackground6.jpg");
 }
 
 @media screen and (width > 1600px) {
-    .tag-wrapper a {
-        width: 550px;
-    }
+  .tag-wrapper a {
+    width: 550px;
+  }
 }

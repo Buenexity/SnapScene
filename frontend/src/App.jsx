@@ -40,7 +40,10 @@ function App() {
         />
         <Route path="/home" element={<Home user={user} />} />
         <Route path="/profile" element={<Profile user={user} />} />
-        <Route path="/profile/:username" element={<DynamicProfile user={user}/>} />
+        <Route
+          path="/profile/:username"
+          element={<DynamicProfile user={user} />}
+        />
         {/*Add routes to pages below this */}
       </Routes>
     </Router>
