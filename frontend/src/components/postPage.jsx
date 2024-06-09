@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 
+import "../../styles/postPage.css"
+
 const PostPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -44,30 +46,38 @@ const PostPage = () => {
 
   return (
     <div className="post-container">
-      <img src={post.url} alt={post.title} />
-      <h1>{post.title}</h1>
-      <p>
-        {post.tags.map((tag, index) => (
-          <span key={index}>#{tag} </span>
-        ))}
-      </p>
-      <p>Date: {new Date(post.Date).toLocaleString()}</p>
-      <h2>Comments:</h2>
-      <ul>
-        {post.comments.map((comment, index) => (
-          <li key={index}>{comment}</li>
-        ))}
-      </ul>
+      <div className="image-title-tags-container">
+        <img src={post.url} alt={post.title} />
+        <h1>{post.title}</h1>
+        <p>
+          {post.tags.map((tag, index) => (
+            <span key={index}>#{tag} </span>
+          ))}
+        </p>
+      </div>
+
+      <div className="comments-container">
+        {/* comment section */}
+        <h2>Comments:</h2>
+        <ul>
+          {post.comments.map((comment, index) => (
+            <li key={index}>{comment}</li>
+          ))}
+        </ul>
+        <p>Date: {new Date(post.Date).toLocaleString()}</p>
+        {/* add new comment */}
+        <form className="new-comment-container" onSubmit={handleAddComment}>
+          <textarea 
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Add a comment"
+            required
+          />
+          <button type="submit">Comment</button>
+        </form>
+      </div>
+
       
-      <form onSubmit={handleAddComment}>
-        <textarea 
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Add a comment"
-          required
-        />
-        <button type="submit">Comment</button>
-      </form>
     </div>
   )
 }
