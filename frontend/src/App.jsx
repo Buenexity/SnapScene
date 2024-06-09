@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import Home from "./components/Home";
 import Profile from "./components/profile";
+import PostPage from "./components/postPage";
 import "../styles/App.css";
 import DynamicProfile from "./components/DynamicProfile";
 
@@ -42,6 +43,7 @@ function App() {
         <Route path="/profile" element={<Profile user={user} />} />
         <Route path="/profile/:username" element={<DynamicProfile user={user}/>} />
         {/*Add routes to pages below this */}
+        <Route path="/posts/:id" element={<PostPage user={user} />} />
       </Routes>
     </Router>
   );

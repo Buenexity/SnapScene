@@ -201,6 +201,41 @@ app.get("/get_profile_picture/:UserEmail", async (req, res) =>
   }
 });
 
+app.get("/posts/:id", async (req, res) => {
+  try {
+    const user = await User.findOne(
+      { "images._id": req.params.id }, 
+      { "images.$": 1}
+    );
+
+    if (user) {
+      res.json(user.images[0]);
+    } else {
+      res.status(404).send("Image not found");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+})
+
+app.post("/posts/:id/addComment", async (req, res) => {
+  const { comment } = req.body;
+
+  try {
+    const user = await User.findOne({ "images._id": req.params.id });
+
+    if (user) {
+      const image = user.images.id(req.params.id);
+      image.comments.push(comment);
+      await user.save();
+      res.status(201).json({ comment });
+    } else {
+      res.status(404).send("Image not found");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+})
 
 //DYNAMIC USER///////////////////////////////////////////////////////////
 
