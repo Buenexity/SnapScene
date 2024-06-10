@@ -2,8 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
-const User = require("./users/users"); // Import the User model using require
+const User = require("./users/users"); 
 const followController = require("./controllers/followerController");
+const ImageController = require("./controllers/ImagesController");
+
 const bodyParser = require("body-parser");
 const router = express.Router();
 
@@ -13,13 +15,10 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
-
 ///////////////////////////////////////////////////
 
-
 // GET request to retrieve a user's ID by email
-app.get("/user/id/:userEmail", async (req, res) => 
-{
+app.get("/user/id/:userEmail", async (req, res) => {
   try {
     const userEmail = req.params.userEmail;
 
@@ -37,18 +36,7 @@ app.get("/user/id/:userEmail", async (req, res) =>
   }
 });
 
-
-
-
-
-
-
-
 //////////////////////////////////////////////////////
-
-
-
-
 
 //token generator key
 const SECRET_KEY = "kC^nU$mD*UL@Zuam";
@@ -75,10 +63,8 @@ app.post("/signup", async (req, res) => {
   console.log("Received data:", req.body);
   const { email, password, username } = req.body;
 
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Please provide email and password" });
+  if (!email) {
+    return res.status(400).json({ message: "Please provide email" });
   }
 
   try {
@@ -128,6 +114,69 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     console.error("Error during login:", err);
     res.status(500).json({ message: "Error logging in" });
+  }
+});
+
+app.post("/createwithGoogle", async (req, res) => {
+  console.log("Received data:", req.body);
+  const { email, password, username } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Please provide email" });
+  }
+
+  try {
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    if (username && (await User.findOne({ username }))) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
+
+    const newUser = new User({ email, username });
+    await newUser.save();
+
+    const token = jwt.sign({ email: newUser.email }, SECRET_KEY, {
+      expiresIn: "2h",
+    });
+
+    res.status(201).json({ user: newUser, token });
+  } catch (err) {
+    res.status(500).json({ message: "Error creating user" });
+  }
+});
+
+app.post("/signwithGoogle", async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res
+      .status(400)
+      .json({ message: "Email is required for Google sign-in" });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    const token = jwt.sign({ email: user.email }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
+
+    if (user) {
+      res
+        .status(200)
+        .json({
+          message: "Google sign-in successful",
+          user: { email: user.email, username: user.username },
+          token,
+        });
+    }
+  } catch (err) {
+    console.error("Error during Google sign-in:", err);
+    res.status(500).json({ message: "Error during Google sign-in" });
   }
 });
 
@@ -183,8 +232,7 @@ app.post("/addImage/:UserEmail", async (req, res) => {
   }
 });
 
-app.get("/get_profile_picture/:UserEmail", async (req, res) => 
-{
+app.get("/get_profile_picture/:UserEmail", async (req, res) => {
   try {
     const userEmail = req.params.UserEmail;
 
@@ -240,8 +288,7 @@ app.post("/posts/:id/addComment", async (req, res) => {
 //DYNAMIC USER///////////////////////////////////////////////////////////
 
 // Define route to get user's email by username
-app.get("/user/email/:usernametype", async (req, res) => 
-{
+app.get("/user/email/:usernametype", async (req, res) => {
   try {
     const username = req.params.usernametype;
 
@@ -262,29 +309,10 @@ app.get("/user/email/:usernametype", async (req, res) =>
 ////////////////////////////////////////////////////////////////////////
 
 app.use(followController);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.use(ImageController);
 
 // Server port is 8000
 const PORT = 8000;
-app.listen(PORT, () => 
-{
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
