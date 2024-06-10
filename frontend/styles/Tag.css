@@ -1,0 +1,11 @@
+.tag-container {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-container h1 {
+  text-align: center;
+  color: #15209a;
+  margin-bottom: 75px;
+}

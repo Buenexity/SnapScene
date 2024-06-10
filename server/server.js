@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
-const User = require("./users/users"); // Import the User model using require
+const User = require("./users/users"); 
 const followController = require("./controllers/followerController");
 const ImageController = require("./controllers/ImagesController");
 
@@ -63,10 +63,8 @@ app.post("/signup", async (req, res) => {
   console.log("Received data:", req.body);
   const { email, password, username } = req.body;
 
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Please provide email and password" });
+  if (!email) {
+    return res.status(400).json({ message: "Please provide email" });
   }
 
   try {
@@ -116,6 +114,69 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     console.error("Error during login:", err);
     res.status(500).json({ message: "Error logging in" });
+  }
+});
+
+app.post("/createwithGoogle", async (req, res) => {
+  console.log("Received data:", req.body);
+  const { email, password, username } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Please provide email" });
+  }
+
+  try {
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    if (username && (await User.findOne({ username }))) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
+
+    const newUser = new User({ email, username });
+    await newUser.save();
+
+    const token = jwt.sign({ email: newUser.email }, SECRET_KEY, {
+      expiresIn: "2h",
+    });
+
+    res.status(201).json({ user: newUser, token });
+  } catch (err) {
+    res.status(500).json({ message: "Error creating user" });
+  }
+});
+
+app.post("/signwithGoogle", async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res
+      .status(400)
+      .json({ message: "Email is required for Google sign-in" });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    const token = jwt.sign({ email: user.email }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
+
+    if (user) {
+      res
+        .status(200)
+        .json({
+          message: "Google sign-in successful",
+          user: { email: user.email, username: user.username },
+          token,
+        });
+    }
+  } catch (err) {
+    console.error("Error during Google sign-in:", err);
+    res.status(500).json({ message: "Error during Google sign-in" });
   }
 });
 
@@ -210,6 +271,43 @@ app.get("/user/email/:usernametype", async (req, res) => {
 });
 
 ////////////////////////////////////////////////////////////////////////
+
+//getting tag list
+app.get("/getTags", async (req, res) => {
+  try {
+    const users = await User.find();
+
+    const getAlltags = users.reduce((tags, user) => {
+      user.images.forEach((image) => {
+        tags.push(...image.tags);
+      });
+      return tags;
+    }, []);
+
+    const tags = [...new Set(getAlltags)];
+
+    const shuffledTags = tags
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+
+    res.json(shuffledTags);
+  } catch (error) {
+    console.error("Error fetching tags", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/filterImage/:tag", async (req, res) => {
+  const tag = req.params.tag;
+
+  const filteredImages = await User.aggregate([
+    { $unwind: "$images" },
+    { $match: { "images.tags": tag } },
+    { $project: { _id: 0, images: 1 } },
+  ]);
+  return res.status(200).json({ Allimages: filteredImages });
+});
 
 app.use(followController);
 app.use(ImageController);
