@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SnapSceneLogo from "/public/SnapScene.png";
@@ -11,7 +11,6 @@ function LoginForm({ setUser, user }) {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
-
 
   async function submit(e) {
     e.preventDefault();
