@@ -1,0 +1,15 @@
+.post-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.new-comment-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-buttons-container {
+  display: flex;
+  flex-direction: column;
+  width: 5px
+}

@@ -249,6 +249,68 @@ app.get("/get_profile_picture/:UserEmail", async (req, res) => {
   }
 });
 
+app.get("/posts/:id", async (req, res) => {
+  try {
+    const user = await User.findOne(
+      { "images._id": req.params.id }, 
+      { "images.$": 1}
+    );
+
+    if (user) {
+      res.json(user.images[0]);
+    } else {
+      res.status(404).send("Image not found");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.post("/posts/:id/addComment", async (req, res) => {
+  const { comment } = req.body;
+
+  try {
+    const user = await User.findOne({ "images._id": req.params.id });
+
+    if (user) {
+      const image = user.images.id(req.params.id);
+      image.comments.push(comment);
+      await user.save();
+      res.status(201).json({ comment });
+    } else {
+      res.status(404).send("Image not found");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/users/:username/posts", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.id });
+    if (user) {
+      res.json(user.images);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/tags/:tag/posts", async (req, res) => {
+  try {
+    const users = await User.findOne({ "posts.tag": req.params.tag });
+    const posts = users.reduce((acc, user) => {
+      const taggedPosts = user.images.filter(image => image.tags.include(req.param.tag));
+      return acc.concat(taggedPosts);
+    }, []);
+    res.json(posts);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 //DYNAMIC USER///////////////////////////////////////////////////////////
 
 // Define route to get user's email by username

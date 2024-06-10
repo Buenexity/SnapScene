@@ -4,6 +4,7 @@ import axios from "axios";
 import LoginForm from "./components/LoginForm";
 import Home from "./components/Home";
 import Profile from "./components/profile";
+import PostPage from "./components/postPage";
 import "../styles/App.css";
 import DynamicProfile from "./components/DynamicProfile";
 import Tag from "./components/Tag";
@@ -64,6 +65,7 @@ function App() {
         />
         <Route path="/tags/:tag" element={<Tag tagList={tagList} />} />
         {/*Add routes to pages below this */}
+        <Route path="/posts/:id" element={<PostPage user={user} />} />
       </Routes>
     </Router>
   );
