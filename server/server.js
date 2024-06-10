@@ -216,7 +216,7 @@ app.get("/posts/:id", async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-})
+});
 
 app.post("/posts/:id/addComment", async (req, res) => {
   const { comment } = req.body;
@@ -235,7 +235,33 @@ app.post("/posts/:id/addComment", async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-})
+});
+
+app.get("/users/:username/posts", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.id });
+    if (user) {
+      res.json(user.images);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/tags/:tag/posts", async (req, res) => {
+  try {
+    const users = await User.findOne({ "posts.tag": req.params.tag });
+    const posts = users.reduce((acc, user) => {
+      const taggedPosts = user.images.filter(image => image.tags.include(req.param.tag));
+      return acc.concat(taggedPosts);
+    }, []);
+    res.json(posts);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 //DYNAMIC USER///////////////////////////////////////////////////////////
 

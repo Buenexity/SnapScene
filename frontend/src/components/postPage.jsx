@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 import "../../styles/postPage.css"
 
 const PostPage = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newComment, setNewComment] = useState("");
@@ -23,8 +26,26 @@ const PostPage = () => {
       }
     };
 
+    // const fetchPostsData = async () => {
+    //   try {
+    //     const from = location.state?.from;
+    //     let response;
+    //     if (from.startsWith("/profile/")) {
+    //       const username = from.split("/profile/")[1];
+    //       response = await axios.get(`http://localhost:8000/users/${username}/posts`);
+    //     } else if (from.startsWith("/tags/")) {
+    //       const tag = from.split("/tags/")[1];
+    //       response = await axios.get(`http://localhost:8000/tags/${tag}/posts`)
+    //     }
+    //     setPosts(response.data);
+    //   } catch (error) {
+    //     setError(error);
+    //   }
+    // };
+
     fetchPostData();
-  }, [id]);
+    // fetchPostsData();
+  }, [id, location.state]);
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error loading image data</p>
@@ -43,6 +64,16 @@ const PostPage = () => {
       console.error(error);
     }
   }
+
+const handleNavigation = (direction) => {
+  const currIndex = posts.findIndex(post => post._id === id);
+  if (direction === "prev") {
+    const newIndex = currIndex - 1;
+  } else if (direction === "next") {
+    const newIndex = currIndex + 1;
+  }
+  navigate(`posts/${posts[newIndex]._id}`, {state: location.state});
+}
 
   return (
     <div className="post-container">
@@ -76,7 +107,10 @@ const PostPage = () => {
           <button type="submit">Comment</button>
         </form>
       </div>
-
+      <div className="scroll-buttons-container">
+        <button onClick={() => handleNavigation("prev")} disabled={posts.findIndex(post => post._id === id) === 0}>^</button>
+        <button onClick={() => handleNavigation("next")} disabled={posts.findIndex(post => post._id === posts.length-1)}>v</button>
+      </div>
       
     </div>
   )
