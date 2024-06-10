@@ -211,6 +211,43 @@ app.get("/user/email/:usernametype", async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////
 
+//getting tag list
+app.get("/getTags", async (req, res) => {
+  try {
+    const users = await User.find();
+
+    const getAlltags = users.reduce((tags, user) => {
+      user.images.forEach((image) => {
+        tags.push(...image.tags);
+      });
+      return tags;
+    }, []);
+
+    const tags = [...new Set(getAlltags)];
+
+    const shuffledTags = tags
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+
+    res.json(shuffledTags);
+  } catch (error) {
+    console.error("Error fetching tags", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/filterImage/:tag", async (req, res) => {
+  const tag = req.params.tag;
+
+  const filteredImages = await User.aggregate([
+    { $unwind: "$images" },
+    { $match: { "images.tags": tag } },
+    { $project: { _id: 0, images: 1 } },
+  ]);
+  return res.status(200).json({ Allimages: filteredImages });
+});
+
 app.use(followController);
 app.use(ImageController);
 
