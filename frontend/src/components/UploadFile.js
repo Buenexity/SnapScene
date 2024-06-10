@@ -1,8 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 
-function uploadFile(file, folderName = "user_images") 
-{
+function uploadFile(file, folderName = "user_images") {
   return new Promise((resolve, reject) => {
     if (!file) {
       reject("No file selected");
