@@ -4,7 +4,7 @@ import "/styles/Home.css";
 function Home({ user, tags }) {
   return (
     <div>
-      <AppHeader />
+      <AppHeader user={user} tags={tags} />
 
       <div className="home-container">
         {user && <h1>Welcome, {user.username}</h1>}

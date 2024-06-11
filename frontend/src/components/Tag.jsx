@@ -5,13 +5,13 @@ import ImagePost from "./ImagePost";
 import axios from "axios";
 import "../../styles/Tag.css";
 
-function Tag(tagList) {
-  const tag = useParams();
+function Tag({ tagList }) {
+  const tag = useParams().tag;
 
   // currently not working because tagList initially starts as null
-  if (!tagList.tagList.includes(tag.tag)) {
-    console.log(typeof tagList.tagList);
-    console.log(tagList.tagList);
+  if (!tagList.includes(tag)) {
+    console.log(typeof tagList);
+    console.log(tagList);
     //throw new Error("Tag not in tag list");
   }
 
@@ -21,7 +21,7 @@ function Tag(tagList) {
     async function getTagImages() {
       try {
         const response = await axios.get(
-          `http://localhost:8000/filterImage/${tag.tag}`
+          `http://localhost:8000/filterImage/${tag}`
         );
         setTagPosts(response.data.Allimages);
       } catch (error) {
@@ -30,7 +30,7 @@ function Tag(tagList) {
     }
 
     getTagImages();
-  }, [tag.tag]);
+  }, [tag]);
 
   const renderProfilePosts = () => {
     return tagPosts.map((image, index) => (
@@ -42,7 +42,7 @@ function Tag(tagList) {
     <div className="tag-container">
       <AppHeader />
 
-      <h1>{tag.tag}</h1>
+      <h1>{tag}</h1>
 
       <div className="posts">{renderProfilePosts()}</div>
     </div>

@@ -37,6 +37,10 @@ function App() {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
+  useEffect(() => {
+    sessionStorage.setItem("tagList", JSON.stringify(tagList));
+  }, [tagList]);
+
   return (
     <Router>
       <Routes>
