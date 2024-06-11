@@ -147,7 +147,7 @@ function DynamicProfile({ user }) {
 
   const renderProfilePosts = () => {
     return ProfilePosts.map((image, index) => (
-      <ImagePost key={index} ImageUrl={image.url} />
+      <ImagePost key={index} ImageUrl={image.url} id={image._id} />
     ));
   };
 

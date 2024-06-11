@@ -34,7 +34,7 @@ function Tag(tagList) {
 
   const renderProfilePosts = () => {
     return tagPosts.map((image, index) => (
-      <ImagePost key={index} ImageUrl={image.images.url} />
+      <ImagePost key={index} ImageUrl={image.images.url} id={image.images._id}/>
     ));
   };
 
