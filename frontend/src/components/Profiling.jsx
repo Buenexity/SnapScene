@@ -1,4 +1,5 @@
 import "/styles/Profiling.css";
+import ConnectionsList from "./ConnectionsList";
 
 const ProfileInfo = ({
   user,
@@ -32,6 +33,10 @@ const ProfileInfo = ({
             <div id="Following-Stats" className="Profile-stats-item">
               <h2>Following: {following}</h2>
             </div>
+          </div>
+          <div className="Connections-container">
+            {console.log("Recieving Email to Profile Info",user.email)}
+            <ConnectionsList userEmail={user.email} />
           </div>
         </div>
       </div>

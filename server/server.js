@@ -7,6 +7,7 @@ const followController = require("./controllers/followerController");
 const ImageController = require("./controllers/ImagesController");
 
 const bodyParser = require("body-parser");
+const { TopologyDescription } = require("mongodb");
 const router = express.Router();
 
 const app = express();
@@ -370,6 +371,50 @@ app.get("/filterImage/:tag", async (req, res) => {
   ]);
   return res.status(200).json({ Allimages: filteredImages });
 });
+
+
+
+////////////////////////////////////////////////////////////////
+
+//Retrieve user following
+app.get("/followstats/:userEmail", async (req, res) => {
+  const userEmail = req.params.userEmail;
+
+  try {
+    const user = await User.findOne({ email: userEmail })
+      .populate("followers", "username profile") 
+      .populate("following", "username profile"); 
+
+    //each follower has associated username and profile
+    const followers = user.followers.map(follower => ({
+      username: follower.username,
+      profile: follower.profile
+    }));
+
+
+    const following = user.following.map(followee => ({
+      username: followee.username,
+      profile: followee.profile
+    }));
+
+    console.log(followers);
+    console.log(following);
+
+
+
+    res.status(200).json({ followers, following });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+
+
+
+
+
+
 
 app.use(followController);
 app.use(ImageController);
