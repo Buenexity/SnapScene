@@ -5,16 +5,8 @@ import ImagePost from "./ImagePost";
 import axios from "axios";
 import "../../styles/Tag.css";
 
-function Tag({ tagList }) {
+function Tag() {
   const tag = useParams().tag;
-
-  // currently not working because tagList initially starts as null
-  if (!tagList.includes(tag)) {
-    //console.log(typeof tagList);
-    //console.log(tagList);
-    //throw new Error("Tag not in tag list");
-  }
-
   const [tagPosts, setTagPosts] = useState([]);
 
   useEffect(() => {
