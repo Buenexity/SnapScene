@@ -10,8 +10,8 @@ function Tag({ tagList }) {
 
   // currently not working because tagList initially starts as null
   if (!tagList.includes(tag)) {
-    console.log(typeof tagList);
-    console.log(tagList);
+    //console.log(typeof tagList);
+    //console.log(tagList);
     //throw new Error("Tag not in tag list");
   }
 
@@ -32,7 +32,27 @@ function Tag({ tagList }) {
     getTagImages();
   }, [tag]);
 
+  const postStyle = {
+    display: tagPosts === undefined || tagPosts.length == 0 ? "flex" : "grid",
+  };
+
   const renderProfilePosts = () => {
+    console.log(tagPosts);
+    console.log(!tagPosts);
+    if (tagPosts === undefined || tagPosts.length == 0) {
+      console.log("There are no posts");
+      return (
+        <div
+          style={{
+            textAlign: "center",
+            marginInline: "auto",
+          }}
+        >
+          <h2>There are no posts for this tag.</h2>
+          <h2>Create one by uploading photos!</h2>
+        </div>
+      );
+    }
     return tagPosts.map((image, index) => (
       <ImagePost key={index} ImageUrl={image.images.url} />
     ));
@@ -44,7 +64,9 @@ function Tag({ tagList }) {
 
       <h1>{tag}</h1>
 
-      <div className="posts">{renderProfilePosts()}</div>
+      <div className="posts" style={postStyle}>
+        {renderProfilePosts()}
+      </div>
     </div>
   );
 }
