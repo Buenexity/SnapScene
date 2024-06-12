@@ -53,7 +53,7 @@ function ConnectionsList({ userEmail }) {
                   className="profile-connections-link"
                   to={`/profile/${follower.username}`}
                 >
-                  <img className="Pfp" src={follower.profile} />
+                  <img className="Pfp" src={follower.profile} />@
                   {follower.username}
                 </Link>
               </li>
@@ -76,7 +76,7 @@ function ConnectionsList({ userEmail }) {
                   className="profile-connections-link"
                   to={`/profile/${followee.username}`}
                 >
-                  <img className="Pfp" src={followee.profile} />
+                  <img className="Pfp" src={followee.profile} />@
                   {followee.username}
                 </Link>
               </li>
