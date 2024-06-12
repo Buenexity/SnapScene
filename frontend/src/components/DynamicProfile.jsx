@@ -16,7 +16,7 @@ function DynamicProfile({ user }) {
   const [userAccount, setUserAccount] = useState(null);
   const [followers, setFollowers] = useState();
   const [following, setFollowing] = useState();
-  const [ProfilePosts, setProfilePosts] = useState([]);
+  const [profilePosts, setProfilePosts] = useState([]);
 
   // Redirect if the user is viewing their own profile
   useEffect(() => {
@@ -135,8 +135,9 @@ function DynamicProfile({ user }) {
           `http://localhost:8000/get_profile_imageposts/${email}`
         );
         const AllProfileImages = response.data.Allimages || [];
-        console.log(AllProfileImages);
+        // console.log(AllProfileImages);
         setProfilePosts(AllProfileImages);
+        // console.log(profilePosts);
       } catch (error) {
         console.error("Error fetching user images:", error);
       }
@@ -145,9 +146,18 @@ function DynamicProfile({ user }) {
     GetUserImages();
   }, [email]);
 
+  // useEffect(() => {
+  //   console.log(profilePosts);
+  // }, [profilePosts]);
+
   const renderProfilePosts = () => {
-    return ProfilePosts.map((image, index) => (
-      <ImagePost key={index} ImageUrl={image.url} id={image._id} />
+    return profilePosts.map((image, index) => (
+      <ImagePost
+        key={index}
+        ImageUrl={image.url}
+        id={image._id}
+        imgArray={profilePosts}
+      />
     ));
   };
 
