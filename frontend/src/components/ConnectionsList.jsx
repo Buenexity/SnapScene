@@ -14,7 +14,9 @@ function ConnectionsList({ userEmail }) {
     const fetchConnections = async () => {
       try {
         console.log("ConnectionsList-eIn ConnectionsList", userEmail);
-        const response = await axios.get(`http://localhost:8000/followstats/${userEmail}`);
+        const response = await axios.get(
+          `http://localhost:8000/followstats/${userEmail}`
+        );
         const { followers, following } = response.data;
         setFollowersList(followers || []);
         setFollowingList(following || []);
@@ -23,9 +25,9 @@ function ConnectionsList({ userEmail }) {
         console.error("Error fetching followers and following:", error);
       }
     };
-  
+
     fetchConnections();
-  }, [userEmail]); 
+  }, [userEmail]);
 
   const toggleFollowers = () => {
     setShowFollowers(!showFollowers);
@@ -36,15 +38,21 @@ function ConnectionsList({ userEmail }) {
   };
   return (
     <div className="connections">
-      <div className="Followers" style={{ width: "200px" }}> 
+      <div className="Followers" style={{ width: "200px" }}>
         <button className="toggle-button" onClick={toggleFollowers}>
           {showFollowers ? "▲" : "▼"}
         </button>
         {showFollowers && (
-          <ul className="scrollable-list1" style={{ maxHeight: "200px", overflowY: "auto" }}>
+          <ul
+            className="scrollable-list1"
+            style={{ maxHeight: "200px", overflowY: "auto" }}
+          >
             {followersList.map((follower, index) => (
               <li key={index}>
-                <Link to={`/profile/${follower.username}`}>
+                <Link
+                  className="profile-connections-link"
+                  to={`/profile/${follower.username}`}
+                >
                   <img className="Pfp" src={follower.profile} />
                   {follower.username}
                 </Link>
@@ -53,15 +61,21 @@ function ConnectionsList({ userEmail }) {
           </ul>
         )}
       </div>
-      <div className="Followees" style={{ width: "200px" }}> 
+      <div className="Followees" style={{ width: "200px" }}>
         <button className="toggle-button" onClick={toggleFollowing}>
           {showFollowing ? "▲" : "▼"}
         </button>
         {showFollowing && (
-          <ul className="scrollable-list" style={{ maxHeight: "200px", overflowY: "auto" }}>
+          <ul
+            className="scrollable-list"
+            style={{ maxHeight: "200px", overflowY: "auto" }}
+          >
             {followingList.map((followee, index) => (
               <li key={index}>
-                <Link to={`/profile/${followee.username}`}>
+                <Link
+                  className="profile-connections-link"
+                  to={`/profile/${followee.username}`}
+                >
                   <img className="Pfp" src={followee.profile} />
                   {followee.username}
                 </Link>
