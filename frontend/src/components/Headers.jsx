@@ -87,7 +87,7 @@ function AppHeader({ user, tags }) {
                 className="btn btn-black btn-rounded"
                 href="http://localhost:3000/"
               >
-                Sign in
+                Log out
               </a>
             </li>
           </ul>
