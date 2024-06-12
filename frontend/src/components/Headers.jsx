@@ -69,7 +69,7 @@ function AppHeader({ user, tags }) {
         >
           <ul className="navbar-nav ms-auto align-items-center">
             <li className="nav-item">
-              <a className="nav-link mx-2" href="#!">
+              <a className="nav-link mx-2" href="http://localhost:3000/tags/">
                 <i className="fas fa-plus-circle pe-2"></i>Tags
               </a>
             </li>

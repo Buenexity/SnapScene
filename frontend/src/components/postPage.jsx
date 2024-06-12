@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react"
-import { useParams, useLocation, useNavigate } from "react-router-dom"
-import axios from "axios"
+import { useState, useEffect } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-import "../../styles/postPage.css"
+// import AppHeader from "./Headers";
+
+import "../../styles/postPage.css";
 
 const PostPage = () => {
   const { id } = useParams();
@@ -26,34 +28,30 @@ const PostPage = () => {
       }
     };
 
-    // const fetchPostsData = async () => {
-    //   try {
-    //     const from = location.state?.from;
-    //     let response;
-    //     if (from.startsWith("/profile/")) {
-    //       const username = from.split("/profile/")[1];
-    //       response = await axios.get(`http://localhost:8000/users/${username}/posts`);
-    //     } else if (from.startsWith("/tags/")) {
-    //       const tag = from.split("/tags/")[1];
-    //       response = await axios.get(`http://localhost:8000/tags/${tag}/posts`)
-    //     }
-    //     setPosts(response.data);
-    //   } catch (error) {
-    //     setError(error);
-    //   }
-    // };
+    const fetchPostsData = async () => {
+      try {
+        const { imgArray } = location.state || { imgArray: [] };
+        setPosts(imgArray);
+      } catch (error) {
+        setError(error);
+      }
+    };
 
     fetchPostData();
-    // fetchPostsData();
+    fetchPostsData();
   }, [id, location.state]);
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Error loading image data</p>
+  // useEffect(() => {
+  //   console.log(posts);
+  // }, [posts]);
 
   const handleAddComment = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:8000/posts/${id}/addComment`, { comment: newComment });
+      const response = await axios.post(
+        `http://localhost:8000/posts/${id}/addComment`,
+        { comment: newComment }
+      );
       console.log(response.data.message);
       setPost((prevData) => ({
         ...prevData,
@@ -63,17 +61,24 @@ const PostPage = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-const handleNavigation = (direction) => {
-  const currIndex = posts.findIndex(post => post._id === id);
-  if (direction === "prev") {
-    const newIndex = currIndex - 1;
-  } else if (direction === "next") {
-    const newIndex = currIndex + 1;
-  }
-  navigate(`posts/${posts[newIndex]._id}`, {state: location.state});
-}
+  const handleNavigation = (direction) => {
+    const currIndex = posts.findIndex((post) => post._id === id);
+    let newIndex;
+    if (direction === "prev") {
+      newIndex = currIndex - 1;
+    } else if (direction === "next") {
+      newIndex = currIndex + 1;
+    }
+    if (newIndex >= 0 && newIndex < posts.length) {
+      const newPath = location.pathname.replace(id, posts[newIndex]._id);
+      navigate(newPath, { state: location.state });
+    }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading image data</p>;
 
   return (
     <div className="post-container">
@@ -98,7 +103,7 @@ const handleNavigation = (direction) => {
         <p>Date: {new Date(post.Date).toLocaleString()}</p>
         {/* add new comment */}
         <form className="new-comment-container" onSubmit={handleAddComment}>
-          <textarea 
+          <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Add a comment"
@@ -108,12 +113,23 @@ const handleNavigation = (direction) => {
         </form>
       </div>
       <div className="scroll-buttons-container">
-        <button onClick={() => handleNavigation("prev")} disabled={posts.findIndex(post => post._id === id) === 0}>^</button>
-        <button onClick={() => handleNavigation("next")} disabled={posts.findIndex(post => post._id === posts.length-1)}>v</button>
+        <button
+          onClick={() => handleNavigation("prev")}
+          disabled={posts.findIndex((post) => post._id === id) === 0}
+        >
+          ^
+        </button>
+        <button
+          onClick={() => handleNavigation("next")}
+          disabled={
+            posts.findIndex((post) => post._id === id) === posts.length - 1
+          }
+        >
+          v
+        </button>
       </div>
-      
     </div>
-  )
-}
+  );
+};
 
-export default PostPage
+export default PostPage;

@@ -15,7 +15,11 @@ function Tag() {
         const response = await axios.get(
           `http://localhost:8000/filterImage/${tag}`
         );
-        setTagPosts(response.data.Allimages);
+        // setTagPosts(response.data.Allimages);
+        const images = response.data.Allimages.map((post) => post.images);
+        setTagPosts(images);
+
+        // console.log(tagPosts)
       } catch (error) {
         console.log("Error fetching tag photos", error);
       }
@@ -27,6 +31,10 @@ function Tag() {
   const postStyle = {
     display: tagPosts === undefined || tagPosts.length == 0 ? "flex" : "grid",
   };
+
+  // useEffect(() => {
+  //   console.log(tagPosts);
+  // }, [tagPosts]);
 
   const renderProfilePosts = () => {
     console.log(tagPosts);
@@ -46,20 +54,26 @@ function Tag() {
       );
     }
     return tagPosts.map((image, index) => (
-      <ImagePost key={index} ImageUrl={image.images.url} />
+      <ImagePost
+        key={index}
+        ImageUrl={image.url}
+        id={image._id}
+        imgArray={tagPosts}
+      />
     ));
   };
 
   return (
-    <div className="tag-container">
+    <>
       <AppHeader />
+      <div className="tag-container">
+        <h1>{tag}</h1>
 
-      <h1>{tag}</h1>
-
-      <div className="posts" style={postStyle}>
-        {renderProfilePosts()}
+        <div className="posts" style={postStyle}>
+          {renderProfilePosts()}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
