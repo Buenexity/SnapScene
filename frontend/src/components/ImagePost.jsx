@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import "../../styles/ImagePost.css";
 
 function ImagePost({ ImageUrl, id, imgArray }) {
-  // console.log(imgArray);
-
   return (
     <div className="post">
       <Link

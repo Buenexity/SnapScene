@@ -131,7 +131,12 @@ function Profile({ user }) {
 
   const renderProfilePosts = () => {
     return profilePosts.map((image, index) => (
-      <ImagePost key={index} ImageUrl={image.url} id={image._id} imgArray={profilePosts}/>
+      <ImagePost
+        key={index}
+        ImageUrl={image.url}
+        id={image._id}
+        imgArray={profilePosts}
+      />
     ));
   };
 
