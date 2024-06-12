@@ -1,0 +1,35 @@
+.tagPage-container {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.tagPage-container h1 {
+  color: #1e6762;
+}
+
+.tag-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  font-size: x-large;
+}
+
+.tag {
+  color: #441e67;
+  text-decoration: none;
+  width: 50%;
+  border-top: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
+  transition: transform 0.3s ease;
+}
+
+.tag:hover {
+  transform: scale(1.1);
+}
+
+.tag-container:last-child {
+  padding-bottom: 75px;
+}
