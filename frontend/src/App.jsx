@@ -8,6 +8,7 @@ import PostPage from "./components/postPage";
 import "../styles/App.css";
 import DynamicProfile from "./components/DynamicProfile";
 import Tag from "./components/Tag";
+import TagPage from "./components/TagPage";
 
 function App() {
   const [tagObject, setTags] = useState([]);
@@ -67,8 +68,8 @@ function App() {
           path="/profile/:username"
           element={<DynamicProfile user={user} />}
         />
+        <Route path="/tags" element={<TagPage tags={tagList} />} />
         <Route path="/tags/:tag" element={<Tag />} />
-        {/*Add routes to pages below this */}
         <Route path="/posts/:id" element={<PostPage user={user} />} />
       </Routes>
     </Router>

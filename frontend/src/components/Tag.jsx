@@ -64,15 +64,16 @@ function Tag() {
   };
 
   return (
-    <div className="tag-container">
+    <>
       <AppHeader />
+      <div className="tag-container">
+        <h1>{tag}</h1>
 
-      <h1>{tag}</h1>
-
-      <div className="posts" style={postStyle}>
-        {renderProfilePosts()}
+        <div className="posts" style={postStyle}>
+          {renderProfilePosts()}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
