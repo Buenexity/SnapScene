@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import "/styles/Connection.css";
@@ -43,8 +44,10 @@ function ConnectionsList({ userEmail }) {
           <ul className="scrollable-list1" style={{ maxHeight: "200px", overflowY: "auto" }}>
             {followersList.map((follower, index) => (
               <li key={index}>
-                <img className="Pfp" src={follower.profile} />
-                {follower.username}
+                <Link to={`/profile/${follower.username}`}>
+                  <img className="Pfp" src={follower.profile} />
+                  {follower.username}
+                </Link>
               </li>
             ))}
           </ul>
@@ -58,8 +61,10 @@ function ConnectionsList({ userEmail }) {
           <ul className="scrollable-list" style={{ maxHeight: "200px", overflowY: "auto" }}>
             {followingList.map((followee, index) => (
               <li key={index}>
-                <img className="Pfp" src={followee.profile} />
-                {followee.username}
+                <Link to={`/profile/${followee.username}`}>
+                  <img className="Pfp" src={followee.profile} />
+                  {followee.username}
+                </Link>
               </li>
             ))}
           </ul>

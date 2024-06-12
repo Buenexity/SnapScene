@@ -42,10 +42,6 @@ const PostPage = () => {
     fetchPostsData();
   }, [id, location.state]);
 
-  // useEffect(() => {
-  //   console.log(posts);
-  // }, [posts]);
-
   const handleAddComment = async (e) => {
     e.preventDefault();
     try {

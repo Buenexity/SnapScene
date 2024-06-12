@@ -136,9 +136,7 @@ function DynamicProfile({ user }) {
           `http://localhost:8000/get_profile_imageposts/${email}`
         );
         const AllProfileImages = response.data.Allimages || [];
-        // console.log(AllProfileImages);
         setProfilePosts(AllProfileImages);
-        // console.log(profilePosts);
       } catch (error) {
         console.error("Error fetching user images:", error);
       }
@@ -146,10 +144,6 @@ function DynamicProfile({ user }) {
 
     GetUserImages();
   }, [email]);
-
-  // useEffect(() => {
-  //   console.log(profilePosts);
-  // }, [profilePosts]);
 
   const renderProfilePosts = () => {
     return profilePosts.map((image, index) => (
@@ -173,7 +167,6 @@ function DynamicProfile({ user }) {
       <header className="Profile-header">
       {console.log("Sending Email",email)}
         <ProfileInfo
-          
           user={{username: username , email:email}}
           profileImageUrl={profileImageUrl}
           followers={followers}
