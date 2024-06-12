@@ -15,7 +15,7 @@ function Profile({ user }) {
   const [followers, setFollowers] = useState(0);
   const [following, setFollowing] = useState(0);
   const [userViewing, setUserViewing] = useState(null);
-  const [ProfilePosts, setProfilePosts] = useState([]);
+  const [profilePosts, setProfilePosts] = useState([]);
 
   const updateProfilePicture = async (imageUrl) => {
     try {
@@ -130,8 +130,8 @@ function Profile({ user }) {
   };
 
   const renderProfilePosts = () => {
-    return ProfilePosts.map((image, index) => (
-      <ImagePost key={index} ImageUrl={image.url} />
+    return profilePosts.map((image, index) => (
+      <ImagePost key={index} ImageUrl={image.url} id={image._id} imgArray={profilePosts}/>
     ));
   };
 
