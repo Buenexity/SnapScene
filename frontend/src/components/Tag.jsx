@@ -5,23 +5,15 @@ import ImagePost from "./ImagePost";
 import axios from "axios";
 import "../../styles/Tag.css";
 
-function Tag(tagList) {
-  const tag = useParams();
-
-  // currently not working because tagList initially starts as null
-  if (!tagList.tagList.includes(tag.tag)) {
-    console.log(typeof tagList.tagList);
-    console.log(tagList.tagList);
-    //throw new Error("Tag not in tag list");
-  }
-
+function Tag() {
+  const tag = useParams().tag;
   const [tagPosts, setTagPosts] = useState([]);
 
   useEffect(() => {
     async function getTagImages() {
       try {
         const response = await axios.get(
-          `http://localhost:8000/filterImage/${tag.tag}`
+          `http://localhost:8000/filterImage/${tag}`
         );
         setTagPosts(response.data.Allimages);
       } catch (error) {
@@ -30,9 +22,29 @@ function Tag(tagList) {
     }
 
     getTagImages();
-  }, [tag.tag]);
+  }, [tag]);
+
+  const postStyle = {
+    display: tagPosts === undefined || tagPosts.length == 0 ? "flex" : "grid",
+  };
 
   const renderProfilePosts = () => {
+    console.log(tagPosts);
+    console.log(!tagPosts);
+    if (tagPosts === undefined || tagPosts.length == 0) {
+      console.log("There are no posts");
+      return (
+        <div
+          style={{
+            textAlign: "center",
+            marginInline: "auto",
+          }}
+        >
+          <h2>There are no posts for this tag.</h2>
+          <h2>Create one by uploading photos!</h2>
+        </div>
+      );
+    }
     return tagPosts.map((image, index) => (
       <ImagePost key={index} ImageUrl={image.images.url} />
     ));
@@ -42,9 +54,11 @@ function Tag(tagList) {
     <div className="tag-container">
       <AppHeader />
 
-      <h1>{tag.tag}</h1>
+      <h1>{tag}</h1>
 
-      <div className="posts">{renderProfilePosts()}</div>
+      <div className="posts" style={postStyle}>
+        {renderProfilePosts()}
+      </div>
     </div>
   );
 }

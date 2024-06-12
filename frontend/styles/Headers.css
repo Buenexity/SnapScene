@@ -13,3 +13,10 @@
 .navbar-brand img {
   width: 40px;
 }
+
+.form-inline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 68%;
+}

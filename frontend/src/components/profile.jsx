@@ -7,6 +7,7 @@ import ImagePost from "./ImagePost";
 import "../../styles/Profile.css";
 import UploadImages from "./UploadPhotos";
 import AppHeader from "./Headers";
+import ConnectionsList from "./ConnectionsList";
 
 function Profile({ user }) {
   const [profileImageUrl, setProfileImageUrl] = useState(def_image);

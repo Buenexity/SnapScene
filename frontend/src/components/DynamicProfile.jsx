@@ -68,25 +68,26 @@ function DynamicProfile({ user }) {
   useEffect(() => {
     const fetchUserIds = async () => {
       try {
-        const response1 = await axios.get(
-          `http://localhost:8000/user/id/${encodeURIComponent(user.email)}`
-        );
-        const userId = response1.data.userId;
-        setUserViewing(userId);
-
-        const response2 = await axios.get(
-          `http://localhost:8000/user/id/${encodeURIComponent(email)}`
-        );
-        const userId2 = response2.data.userId;
-        setUserAccount(userId2);
+        // Wait until email is set before fetching user IDs
+        if (email) {
+          const response1 = await axios.get(
+            `http://localhost:8000/user/id/${encodeURIComponent(user.email)}`
+          );
+          const userId = response1.data.userId;
+          setUserViewing(userId);
+  
+          const response2 = await axios.get(
+            `http://localhost:8000/user/id/${encodeURIComponent(email)}`
+          );
+          const userId2 = response2.data.userId;
+          setUserAccount(userId2);
+        }
       } catch (error) {
         console.error("Error fetching user IDs:", error);
       }
     };
-
-    if (email) {
-      fetchUserIds();
-    }
+  
+    fetchUserIds();
   }, [email, user.email]);
 
   // Get the size of the followers & following for dynamic Profile
@@ -160,9 +161,10 @@ function DynamicProfile({ user }) {
       <AppHeader />
 
       <header className="Profile-header">
+      {console.log("Sending Email",email)}
         <ProfileInfo
-          user={{ username: username }}
-          email={email}
+          
+          user={{username: username , email:email}}
           profileImageUrl={profileImageUrl}
           followers={followers}
           following={following}

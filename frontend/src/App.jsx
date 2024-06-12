@@ -37,6 +37,10 @@ function App() {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
+  useEffect(() => {
+    sessionStorage.setItem("tagList", JSON.stringify(tagList));
+  }, [tagList]);
+
   return (
     <Router>
       <Routes>
@@ -63,7 +67,7 @@ function App() {
           path="/profile/:username"
           element={<DynamicProfile user={user} />}
         />
-        <Route path="/tags/:tag" element={<Tag tagList={tagList} />} />
+        <Route path="/tags/:tag" element={<Tag />} />
         {/*Add routes to pages below this */}
         <Route path="/posts/:id" element={<PostPage user={user} />} />
       </Routes>
