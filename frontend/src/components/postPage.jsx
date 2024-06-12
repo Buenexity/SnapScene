@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import AppHeader from "../components/Headers";
 
 // import AppHeader from "./Headers";
 
@@ -81,54 +82,57 @@ const PostPage = () => {
   if (error) return <p>Error loading image data</p>;
 
   return (
-    <div className="post-container">
-      <div className="image-title-tags-container">
-        <img src={post.url} alt={post.title} />
-        <h1>{post.title}</h1>
-        <p>
-          {post.tags.map((tag, index) => (
-            <span key={index}>#{tag} </span>
-          ))}
-        </p>
-      </div>
+    <>
+      <AppHeader />
+      <div className="posts-container">
+        <div className="image-title-tags-container">
+          <h1>{post.title}</h1>
+          <p>
+            {post.tags.map((tag, index) => (
+              <span key={index}>#{tag} </span>
+            ))}
+          </p>
+          <img src={post.url} alt={post.title} />
+        </div>
 
-      <div className="comments-container">
-        {/* comment section */}
-        <h2>Comments:</h2>
-        <ul>
-          {post.comments.map((comment, index) => (
-            <li key={index}>{comment}</li>
-          ))}
-        </ul>
-        <p>Date: {new Date(post.Date).toLocaleString()}</p>
-        {/* add new comment */}
-        <form className="new-comment-container" onSubmit={handleAddComment}>
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment"
-            required
-          />
-          <button type="submit">Comment</button>
-        </form>
+        <div className="comments-container">
+          {/* comment section */}
+          <h2>Comments:</h2>
+          <ul>
+            {post.comments.map((comment, index) => (
+              <li key={index}>{comment}</li>
+            ))}
+          </ul>
+          <p>Date: {new Date(post.Date).toLocaleString()}</p>
+          {/* add new comment */}
+          <form className="new-comment-container" onSubmit={handleAddComment}>
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a comment"
+              required
+            />
+            <button type="submit">Comment</button>
+          </form>
+        </div>
+        <div className="scroll-buttons-container">
+          <button
+            onClick={() => handleNavigation("prev")}
+            disabled={posts.findIndex((post) => post._id === id) === 0}
+          >
+            ^
+          </button>
+          <button
+            onClick={() => handleNavigation("next")}
+            disabled={
+              posts.findIndex((post) => post._id === id) === posts.length - 1
+            }
+          >
+            v
+          </button>
+        </div>
       </div>
-      <div className="scroll-buttons-container">
-        <button
-          onClick={() => handleNavigation("prev")}
-          disabled={posts.findIndex((post) => post._id === id) === 0}
-        >
-          ^
-        </button>
-        <button
-          onClick={() => handleNavigation("next")}
-          disabled={
-            posts.findIndex((post) => post._id === id) === posts.length - 1
-          }
-        >
-          v
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 

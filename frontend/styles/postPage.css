@@ -1,6 +1,34 @@
-.post-container {
+.posts-container {
+  margin-top: 100px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border: 2px solid #cbcbcb;
+  border-radius: 25px;
+  width: 80%;
   display: flex;
   flex-direction: row;
+  margin-inline: auto;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  justify-content: space-evenly;
+  color: #4c90e2;
+}
+
+.comments-container h2 {
+  color: #4c90e2;
+}
+
+.comments-container {
+  color: black;
+}
+
+.posts-container li {
+  text-align: left;
+  list-style: none;
+  background-color: #d6a0de;
+  padding: 10px;
+  margin-bottom: 0.75rem;
+  width: fit-content;
+  border-radius: 25px;
 }
 
 .new-comment-container {
@@ -11,5 +39,21 @@
 .scroll-buttons-container {
   display: flex;
   flex-direction: column;
-  width: 5px
+  width: 7rem;
+  transition: transform 0.3s ease;
+}
+
+.scroll-buttons-container button {
+  background-color: #aaa2fc;
+  color: black;
+  border-radius: 15px;
+}
+
+.scroll-buttons-container button:hover {
+  transform: scale(1.03);
+}
+
+.image-title-tags-container img {
+  border-radius: 15px;
+  width: 45rem;
 }
